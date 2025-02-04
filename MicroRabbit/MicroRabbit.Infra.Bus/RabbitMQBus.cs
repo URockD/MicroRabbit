@@ -113,7 +113,7 @@ namespace MicroRabbit.Infra.Bus
 					var method = concreteType.GetMethod("Handle");
 					if (method != null)
 					{
-						await (Task)method.Invoke(handler, new object[] { @event })!;
+						await (Task)method.Invoke(handler, [@event])!;
 					}
 				}
 			}
