@@ -107,7 +107,7 @@ namespace MicroRabbit.Infra.Bus
 				using var scope = _serviceScopeFactory.CreateScope();
 				foreach (var subscription in handlers)
 				{
-					var handler = scope.ServiceProvider.GetService(subscription);
+					var handler = scope.ServiceProvider.GetRequiredService(subscription);
 					if (handler == null) continue;
 					var eventType = _eventTypes.SingleOrDefault(t => t.Name == eventName);
 					if (eventType == null) continue;
