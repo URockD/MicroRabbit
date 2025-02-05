@@ -1,4 +1,5 @@
 using MicroRabbit.Infra.Ioc;
+using MicroRabbit.Transfer.Api.Extensions;
 using MicroRabbit.Transfer.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
@@ -28,6 +29,8 @@ if (app.Environment.IsDevelopment())
 	app.UseSwagger();
 	app.UseSwaggerUI();
 }
+
+app.UseEventBus().Wait();
 
 app.UseHttpsRedirection();
 
