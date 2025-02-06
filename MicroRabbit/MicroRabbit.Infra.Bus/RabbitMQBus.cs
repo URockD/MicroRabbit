@@ -21,13 +21,14 @@ namespace MicroRabbit.Infra.Bus
 		private readonly List<Type> _eventTypes;
 		private	readonly IServiceScopeFactory _serviceScopeFactory;
 
-		public RabbitMQBus(IMediator mediator, IServiceScopeFactory serviceScopeFactory)
+		public RabbitMQBus(IMediator mediator,  IServiceScopeFactory serviceScopeFactory)
 		{
 			_mediator = mediator;
 			_serviceScopeFactory = serviceScopeFactory;
-			_handlers = new Dictionary<string, List<Type>>();
-			_eventTypes = new List<Type>();
+			_handlers = [];
+			_eventTypes = [];
 		}
+
 		public async Task PublishAsync<T>(T @event) where T : Event
 		{
 			var factory = new ConnectionFactory() { HostName = "localhost" };
@@ -113,11 +114,11 @@ namespace MicroRabbit.Infra.Bus
 					if (eventType == null) continue;
 					var @event = JsonConvert.DeserializeObject(message, eventType);
 					if (@event == null) continue;
+					await _mediator.Publish(@event);
 					var concreteType = typeof(IEventHandler<>).MakeGenericType(eventType);
 					var method = concreteType.GetMethod("Handle");
 					if (method != null)
 					{
-						await _mediator.Publish(@event);
 						await (Task)method.Invoke(handler, [@event])!;
 					}
 				}

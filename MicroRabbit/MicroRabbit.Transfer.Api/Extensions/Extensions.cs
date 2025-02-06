@@ -16,7 +16,7 @@ namespace MicroRabbit.Transfer.Api.Extensions
 		public static IApplicationBuilder UseEventBus(this IApplicationBuilder app)
 		{
 			var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
-			eventBus.SubscribeAsync<TransferCreatedEvent, TransferEventHandler>();
+			_ = eventBus.SubscribeAsync<TransferCreatedEvent, TransferEventHandler>();
 			return app;
 		}
 	}
