@@ -38,17 +38,11 @@ namespace MicroRabbit.Transfer.Api
 
 			app.UseAuthorization();
 
+			app.UseEventBus();
+
 			app.MapControllers();
 
-			ConfigureEventBus(app);
-
 			app.Run();
-		}
-
-		private static void ConfigureEventBus(WebApplication app)
-		{
-			var eventBus = app.Services.GetRequiredService<IEventBus>();
-			eventBus.SubscribeAsync<TransferCreatedEvent, TransferEventHandler>();
 		}
 	}
 }
