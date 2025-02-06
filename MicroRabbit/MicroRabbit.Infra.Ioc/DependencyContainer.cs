@@ -15,8 +15,6 @@ using MicroRabbit.Transfer.Data.Repository;
 using MicroRabbit.Transfer.Domain.EventHandlers;
 using MicroRabbit.Transfer.Domain.Events;
 using MicroRabbit.Transfer.Domain.Interfaces;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 
@@ -29,7 +27,7 @@ namespace MicroRabbit.Infra.Ioc
 			//domain bus
 			services.AddSingleton<IEventBus, RabbitMQBus>(static sp =>
 			{
-				var mediator = sp.GetRequiredService<IMediator>();
+				var mediator = sp.GetService<IMediator>() ?? throw new Exception("Mediator not found");
 				var scopeFactory = sp.GetRequiredService<IServiceScopeFactory>();
 				return new RabbitMQBus(mediator, scopeFactory);
 			});

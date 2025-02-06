@@ -92,7 +92,7 @@ namespace MicroRabbit.Infra.Bus
 			var message = Encoding.UTF8.GetString(@event.Body.ToArray());
 			try
 			{
-				await ProcessEventAsync(eventName, message).ConfigureAwait(false);
+				await ProcessEventAsync(eventName, message);
 			}
 			catch (Exception ex)
 			{
@@ -107,7 +107,7 @@ namespace MicroRabbit.Infra.Bus
 				using var scope = _serviceScopeFactory.CreateScope();
 				foreach (var subscription in handlers)
 				{
-					var handler = scope.ServiceProvider.GetRequiredService(subscription);
+					var handler = scope.ServiceProvider.GetService(subscription);
 					if (handler == null) continue;
 					var eventType = _eventTypes.SingleOrDefault(t => t.Name == eventName);
 					if (eventType == null) continue;
