@@ -25,7 +25,9 @@ namespace MicroRabbit.Transfer.Domain.EventHandlers
 				ToAccount = @event.To,
 				TransferAmount = @event.Amount
 			};
+
 			await _transferRepository.AddAsync(transferLog);
+			await Task.CompletedTask;
 		}
 	}
 }

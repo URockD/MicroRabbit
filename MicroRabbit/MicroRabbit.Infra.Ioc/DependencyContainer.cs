@@ -27,7 +27,7 @@ namespace MicroRabbit.Infra.Ioc
 			//domain bus
 			services.AddSingleton<IEventBus, RabbitMQBus>(static sp =>
 			{
-				var mediator = sp.GetService<IMediator>() ?? throw new Exception("Mediator not found");
+				var mediator = sp.GetRequiredService<IMediator>();
 				var scopeFactory = sp.GetRequiredService<IServiceScopeFactory>();
 				return new RabbitMQBus(mediator, scopeFactory);
 			});
